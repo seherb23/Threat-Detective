@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/logs": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # Store logs and alerts in memory (for now)
 logs = []
@@ -22,7 +22,7 @@ alerts = []
 @app.route('/log', methods=['POST'])
 def log_event():
     data = request.json
-    data['timestamp'] = time.time()
+    data['timestamp'] =  f"{time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime(time.time()))}.{int((time.time() % 1) * 1_000_000):06d}Z"
     logs.append(data)
     
     # Basic threat detection
@@ -49,6 +49,10 @@ def get_logs():
 @app.route('/alerts', methods=['GET'])
 def get_alerts():
     return jsonify(alerts), 200
+
+# @app.after_request
+# def after_request(response):
+#     response.headers['Access-Control-Allow-Origin'] = "*"
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,4 +1,4 @@
-#!/Users/seherbhaskar/Documents/AgentOpsHackathon/Threat-Detective/venv/bin/python3
+#!/home/d4rkc10ud/Documents/Projects/Threat-Detective/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
